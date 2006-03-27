@@ -1,0 +1,61 @@
+Board is held in one multidimensional array sized WxH.
+
+For the lines, each cell square holds a bit field:
+	128 - Square owned by player 1
+	064 - Square owned by player 2
+	032 - Square off limits/started used
+	016 - Always 0
+	008 - Left
+	004 - Bottom
+	002 - Right
+	001 - Top
+
+It is possible for up to 136 little line segments to exist.
+
+Use AI, with the different size boards given?
+
+Boards:
+
+	3x3
+	4x4 4x3 | 3x4
+	5x5 5x3 5x4  | 4x5 3x5
+	6x6 6x5 6x4 6x3  | 3x6 4x6 5x6
+	7x7 7x6 7x5 7x5 7x3 | 3x7 4x7 5x7 6x7
+	8x8 8x7 8x6 8x5 8x4 8x3 | 3x8 4x8 5x8 6x8 7x8
+
+So there are 36 possible boards, 21 is we rotate to ignore dupes.
+
+On an empty line with 8 boxes (9 dots) there are 36 possible moves.
+Given the maximum of 8x8, that is ((9+9)*36) 644 possible starting moves.
+Not bad.
+
+Each "base pair" in the DNA ranges from -1.0 to 1.0
+
+Since a double is 8 bytes (for me) that is...
+	2^64^6 possible DNA strands
+
+DNA is stored in a file, each line contains one double (%f) in the order of the structure.
+
+Process to run one game:
+
+1. Generate initial board
+2. Run first player
+3. Run second player
+4. Check for win condition
+5. Go to 2
+
+A 100 entry tournament takes 2.5 hours to run on disk.
+
+On a ram disk formatted MSDOS and 10240 blocks...
+	a tourney of 1 takes about 3 seconds
+	a tourney of 5 takes about 45 seconds
+	a tourney of 10 takes about 66 seconds
+	a tourney of 20 takes about 224 seconds
+
+	a tourney of 100 with IPC takes 4667 seconds (77.8 minutes)
+
+	a tourney of 100 with built-in (5x5) takes 135 seconds
+	a tourney of 10 with built-in (8x7) takes 35 seconds
+	a tourney of 20 with built-in (8x7) takes 290 seconds
+
+Best DNA so far is original DNA #12
